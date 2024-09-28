@@ -5,8 +5,13 @@
     "description": "Discover a new niche song every day using Spotify",
     "permissions": ["storage", "identity"],
     "host_permissions": [
-      "https://api.spotify.com/*"
+      "https://api.spotify.com/*",
+      "https://i.scdn.co/*",
+      "https://accounts.spotify.com/*"
     ],
+    "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; style-src 'self' 'unsafe-inline'"
+    },
     "background": {
       "service_worker": "background.js"
     },

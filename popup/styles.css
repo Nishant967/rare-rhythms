@@ -1,26 +1,134 @@
 body {
-    width: 300px;
-    padding: 10px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 10px;
-  }
-  
-  .button {
-    background-color: #1DB954;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-  }
-  
-  .button:hover {
-    background-color: #1ed760;
-  }
+  width: 300px;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+}
+
+.song-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #fff;
+}
+
+.song-header {
+  margin-bottom: 10px;
+}
+
+.song-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.song-artist {
+  margin: 5px 0 0;
+  font-size: 14px;
+  color: #666;
+}
+
+.song-content {
+  margin-bottom: 10px;
+}
+
+.cover-art {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.no-cover-art {
+  width: 100%;
+  height: 150px;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #666;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: #ddd;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress {
+  height: 100%;
+  background-color: #1DB954;
+  transition: width 0.1s linear;
+}
+
+.song-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.play-button, .like-button, .refresh-button, .clear-history-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.play-button {
+  background-color: #1DB954;
+  color: white;
+}
+
+.play-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.like-button {
+  background-color: #fff;
+  border: 1px solid #1DB954;
+  color: #1DB954;
+}
+
+.like-button.liked {
+  background-color: #1DB954;
+  color: white;
+}
+
+.refresh-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.refresh-button:hover {
+  background-color: #45a049;
+}
+
+.clear-history-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.clear-history-button:hover {
+  background-color: #d32f2f;
+}
+
+.error, .no-song, .no-preview {
+  color: #d32f2f;
+  text-align: center;
+  padding: 20px;
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
