@@ -63,4 +63,3 @@ Our goal is to broaden musical horizons and support lesser-known artists by intr
 ---
 
 I hope you enjoy discovering new music with the RareRhythms!
-```
