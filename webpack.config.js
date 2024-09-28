@@ -1,3 +1,9 @@
+/**
+ * Webpack configuration file.
+ * @param {Object} env - Environment variables.
+ * @param {Object} argv - Command line arguments.
+ * @returns {Object} Webpack configuration object.
+ */
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 

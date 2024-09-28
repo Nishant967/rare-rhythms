@@ -3,55 +3,58 @@ import { AppContext } from '../context/AppContext';
 import LoadingSpinner from './LoadingSpinner';
 import DOMPurify from 'dompurify';
 
+/**
+ * SongRecommendation component to display song recommendations.
+ * 
+ * @returns {JSX.Element} The rendered song recommendation component.
+ */
 const SongRecommendation = () => {
   const { state, dispatch, refreshSong, clearHistory } = useContext(AppContext);
   const { song, isPlaying, isLiked, isLoading, error } = state;
   const audioRef = useRef(null);
   const [currentTime, setCurrentTime] = useState(0);
 
+  // Log current song whenever it changes
   useEffect(() => {
     console.log('Current song in component:', song);
   }, [song]);
 
+  // Play or pause audio based on isPlaying state
   useEffect(() => {
     if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.play();
-      } else {
-        audioRef.current.pause();
-      }
+      isPlaying ? audioRef.current.play() : audioRef.current.pause();
     }
   }, [isPlaying]);
 
-  const handlePlay = () => {
-    dispatch({ type: 'TOGGLE_PLAY' });
-  };
+  // Dispatch actions for play and like
+  const handlePlay = () => dispatch({ type: 'TOGGLE_PLAY' });
+  const handleLike = () => dispatch({ type: 'TOGGLE_LIKE' });
 
-  const handleLike = () => {
-    dispatch({ type: 'TOGGLE_LIKE' });
-  };
-
+  // Update current time of the audio
   const handleTimeUpdate = () => {
     if (audioRef.current) {
       setCurrentTime(audioRef.current.currentTime);
     }
   };
 
-  const handleRefresh = () => {
-    refreshSong();
-  };
+  // Refresh song recommendation
+  const handleRefresh = () => refreshSong();
 
-  const handleClearHistory = () => {
-    clearHistory();
-  };
+  // Clear song history
+  const handleClearHistory = () => clearHistory();
 
+  // Render loading spinner if loading
   if (isLoading) return <LoadingSpinner />;
+  
+  // Render error message if there's an error
   if (error) return (
     <div className="error">
       <p>Error: {error.message}</p>
       <button onClick={handleRefresh}>Try Again</button>
     </div>
   );
+
+  // Render message if no song is available
   if (!song) return (
     <div className="no-song">
       <p>No recommendation available</p>
@@ -59,6 +62,7 @@ const SongRecommendation = () => {
     </div>
   );
 
+  // Main render for the song card
   return (
     <div className="song-card">
       <div className="song-header">
@@ -80,7 +84,7 @@ const SongRecommendation = () => {
         <div className="progress-bar">
           <div 
             className="progress" 
-            style={{width: `${(currentTime / 30) * 100}%`}}
+            style={{ width: `${(currentTime / 30) * 100}%` }} // Adjust progress bar width
           ></div>
         </div>
       </div>
@@ -102,4 +106,4 @@ const SongRecommendation = () => {
   );
 };
 
-export default SongRecommendation;
+export default SongRecommendation; // Export the SongRecommendation component

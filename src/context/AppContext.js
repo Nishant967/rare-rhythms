@@ -3,6 +3,7 @@ import { getNewRecommendation } from '../services/recommendationService';
 import { authenticateSpotify, addToLikedSongs } from '../api/spotifyApi';
 import { setStorageItem, getStorageItem } from '../services/storageService';
 
+// Initial state for the context
 const initialState = {
   song: null,
   isPlaying: false,
@@ -12,6 +13,13 @@ const initialState = {
   accessToken: null,
 };
 
+/**
+ * Reducer function to manage state updates.
+ * 
+ * @param {Object} state - Current state of the context.
+ * @param {Object} action - Action to be processed.
+ * @returns {Object} Updated state after applying the action.
+ */
 function reducer(state, action) {
   switch (action.type) {
     case 'SET_SONG':
@@ -33,11 +41,20 @@ function reducer(state, action) {
   }
 }
 
+// Create context
 export const AppContext = createContext();
 
+/**
+ * Provider component to wrap the application and provide context.
+ * 
+ * @param {Object} props - Component props.
+ * @param {React.ReactNode} props.children - Child components.
+ * @returns {JSX.Element} The AppProvider component.
+ */
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // Load initial data on component mount
   useEffect(() => {
     const loadInitialData = async () => {
       try {
@@ -63,6 +80,7 @@ export const AppProvider = ({ children }) => {
     loadInitialData();
   }, []);
 
+  // Effect to handle adding song to liked list
   useEffect(() => {
     if (state.isLiked && state.accessToken && state.song) {
       addToLikedSongs(state.song.id, state.accessToken).catch(error => {
@@ -72,6 +90,9 @@ export const AppProvider = ({ children }) => {
     }
   }, [state.isLiked, state.accessToken, state.song]);
 
+  /**
+   * Function to refresh the current song.
+   */
   const refreshSong = async () => {
     try {
       dispatch({ type: 'REFRESH_SONG' });
@@ -84,6 +105,9 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Function to clear recommendation history.
+   */
   const clearHistory = async () => {
     try {
       await setStorageItem('recommendationHistory', []);
@@ -95,6 +119,7 @@ export const AppProvider = ({ children }) => {
     }
   };
 
+  // Provide context values to children
   return (
     <AppContext.Provider value={{ state, dispatch, refreshSong, clearHistory }}>
       {children}

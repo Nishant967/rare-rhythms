@@ -1,134 +1,156 @@
+/* General body styles */
 body {
-  width: 300px;
-  padding: 10px;
-  font-family: Arial, sans-serif;
+  width: 300px; /* Set width of the body */
+  padding: 10px; /* Add padding around the body */
+  font-family: Arial, sans-serif; /* Set font family */
 }
 
+/* Styles for song cards */
 .song-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 10px;
-  background-color: #fff;
+  border: 1px solid #ddd; /* Border around the card */
+  border-radius: 8px; /* Rounded corners */
+  padding: 15px; /* Padding inside the card */
+  margin-bottom: 10px; /* Space below the card */
+  background-color: #fff; /* Background color */
 }
 
+/* Styles for song header */
 .song-header {
-  margin-bottom: 10px;
+  margin-bottom: 10px; /* Space below the header */
 }
 
+/* Styles for song title */
 .song-title {
-  margin: 0;
-  font-size: 18px;
-  font-weight: bold;
+  margin: 0; /* Remove default margin */
+  font-size: 18px; /* Font size for title */
+  font-weight: bold; /* Bold font */
 }
 
+/* Styles for song artist */
 .song-artist {
-  margin: 5px 0 0;
-  font-size: 14px;
-  color: #666;
+  margin: 5px 0 0; /* Space above the artist name */
+  font-size: 14px; /* Font size for artist name */
+  color: #666; /* Color for artist name */
 }
 
+/* Styles for song content */
 .song-content {
-  margin-bottom: 10px;
+  margin-bottom: 10px; /* Space below the content */
 }
 
+/* Styles for cover art */
 .cover-art {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  margin-bottom: 10px;
+  width: 100%; /* Full width */
+  height: auto; /* Auto height */
+  border-radius: 4px; /* Rounded corners */
+  margin-bottom: 10px; /* Space below the cover art */
 }
 
+/* Styles for no cover art placeholder */
 .no-cover-art {
-  width: 100%;
-  height: 150px;
-  background-color: #f0f0f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #666;
-  border-radius: 4px;
-  margin-bottom: 10px;
+  width: 100%; /* Full width */
+  height: 150px; /* Fixed height */
+  background-color: #f0f0f0; /* Background color */
+  display: flex; /* Flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  color: #666; /* Text color */
+  border-radius: 4px; /* Rounded corners */
+  margin-bottom: 10px; /* Space below the placeholder */
 }
 
+/* Styles for progress bar */
 .progress-bar {
-  width: 100%;
-  height: 4px;
-  background-color: #ddd;
-  border-radius: 2px;
-  overflow: hidden;
-  margin-bottom: 10px;
+  width: 100%; /* Full width */
+  height: 4px; /* Height of the progress bar */
+  background-color: #ddd; /* Background color */
+  border-radius: 2px; /* Rounded corners */
+  overflow: hidden; /* Hide overflow */
+  margin-bottom: 10px; /* Space below the progress bar */
 }
 
+/* Styles for progress indicator */
 .progress {
-  height: 100%;
-  background-color: #1DB954;
-  transition: width 0.1s linear;
+  height: 100%; /* Full height */
+  background-color: #1DB954; /* Progress color */
+  transition: width 0.1s linear; /* Smooth transition */
 }
 
+/* Styles for song footer */
 .song-footer {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  display: flex; /* Flexbox for layout */
+  justify-content: space-between; /* Space between items */
+  flex-wrap: wrap; /* Wrap items if needed */
 }
 
+/* Styles for buttons */
 .play-button, .like-button, .refresh-button, .clear-history-button {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  margin-bottom: 10px;
+  padding: 8px 16px; /* Padding for buttons */
+  border: none; /* No border */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 14px; /* Font size for buttons */
+  margin-bottom: 10px; /* Space below buttons */
 }
 
+/* Styles for play button */
 .play-button {
-  background-color: #1DB954;
-  color: white;
+  background-color: #1DB954; /* Background color */
+  color: white; /* Text color */
 }
 
+/* Styles for disabled play button */
 .play-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+  background-color: #ccc; /* Background color when disabled */
+  cursor: not-allowed; /* Not allowed cursor */
 }
 
+/* Styles for like button */
 .like-button {
-  background-color: #fff;
-  border: 1px solid #1DB954;
-  color: #1DB954;
+  background-color: #fff; /* Background color */
+  border: 1px solid #1DB954; /* Border color */
+  color: #1DB954; /* Text color */
 }
 
+/* Styles for liked state of like button */
 .like-button.liked {
-  background-color: #1DB954;
-  color: white;
+  background-color: #1DB954; /* Background color when liked */
+  color: white; /* Text color when liked */
 }
 
+/* Styles for refresh button */
 .refresh-button {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #4CAF50; /* Background color */
+  color: white; /* Text color */
 }
 
+/* Hover effect for refresh button */
 .refresh-button:hover {
-  background-color: #45a049;
+  background-color: #45a049; /* Darker background on hover */
 }
 
+/* Styles for clear history button */
 .clear-history-button {
-  background-color: #f44336;
-  color: white;
+  background-color: #f44336; /* Background color */
+  color: white; /* Text color */
 }
 
+/* Hover effect for clear history button */
 .clear-history-button:hover {
-  background-color: #d32f2f;
+  background-color: #d32f2f; /* Darker background on hover */
 }
 
+/* Styles for error messages and loading states */
 .error, .no-song, .no-preview {
-  color: #d32f2f;
-  text-align: center;
-  padding: 20px;
+  color: #d32f2f; /* Text color for error messages */
+  text-align: center; /* Center text */
+  padding: 20px; /* Padding around messages */
 }
 
+/* Styles for loading spinner */
 .loading-spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
+  display: flex; /* Flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100px; /* Fixed height */
 }
