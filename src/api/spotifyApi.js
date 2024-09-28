@@ -144,6 +144,7 @@ export async function getTrackRecommendation() {
           id: validTrack.id,
           title: validTrack.name,
           artist: validTrack.artists[0].name,
+          artistUrl: validTrack.artists[0].external_urls.spotify,
           previewUrl: validTrack.preview_url,
           coverArt: validTrack.album.images[0].url,
           spotifyUrl: validTrack.external_urls.spotify

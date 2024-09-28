@@ -1,156 +1,143 @@
-/* General body styles */
 body {
-  width: 300px; /* Set width of the body */
-  padding: 10px; /* Add padding around the body */
-  font-family: Arial, sans-serif; /* Set font family */
+  width: 300px;
+  padding: 10px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #121212;
+  color: white;
+  margin: 0;
 }
 
-/* Styles for song cards */
 .song-card {
-  border: 1px solid #ddd; /* Border around the card */
-  border-radius: 8px; /* Rounded corners */
-  padding: 15px; /* Padding inside the card */
-  margin-bottom: 10px; /* Space below the card */
-  background-color: #fff; /* Background color */
+  background-color: #181818;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 4px 60px rgba(0,0,0,0.5);
 }
 
-/* Styles for song header */
-.song-header {
-  margin-bottom: 10px; /* Space below the header */
+.song-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
 }
 
-/* Styles for song title */
-.song-title {
-  margin: 0; /* Remove default margin */
-  font-size: 18px; /* Font size for title */
-  font-weight: bold; /* Bold font */
-}
-
-/* Styles for song artist */
-.song-artist {
-  margin: 5px 0 0; /* Space above the artist name */
-  font-size: 14px; /* Font size for artist name */
-  color: #666; /* Color for artist name */
-}
-
-/* Styles for song content */
-.song-content {
-  margin-bottom: 10px; /* Space below the content */
-}
-
-/* Styles for cover art */
 .cover-art {
-  width: 100%; /* Full width */
-  height: auto; /* Auto height */
-  border-radius: 4px; /* Rounded corners */
-  margin-bottom: 10px; /* Space below the cover art */
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  margin-right: 16px;
+  object-fit: cover;
 }
 
-/* Styles for no cover art placeholder */
-.no-cover-art {
-  width: 100%; /* Full width */
-  height: 150px; /* Fixed height */
-  background-color: #f0f0f0; /* Background color */
-  display: flex; /* Flexbox for centering */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  color: #666; /* Text color */
-  border-radius: 4px; /* Rounded corners */
-  margin-bottom: 10px; /* Space below the placeholder */
+.song-details {
+  flex-grow: 1;
+  overflow: hidden;
 }
 
-/* Styles for progress bar */
-.progress-bar {
-  width: 100%; /* Full width */
-  height: 4px; /* Height of the progress bar */
-  background-color: #ddd; /* Background color */
-  border-radius: 2px; /* Rounded corners */
-  overflow: hidden; /* Hide overflow */
-  margin-bottom: 10px; /* Space below the progress bar */
+.song-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Styles for progress indicator */
-.progress {
-  height: 100%; /* Full height */
-  background-color: #1DB954; /* Progress color */
-  transition: width 0.1s linear; /* Smooth transition */
+.song-artist {
+  font-size: 14px;
+  color: #b3b3b3;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Styles for song footer */
-.song-footer {
-  display: flex; /* Flexbox for layout */
-  justify-content: space-between; /* Space between items */
-  flex-wrap: wrap; /* Wrap items if needed */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+  padding: 0 20px;
 }
 
-/* Styles for buttons */
-.play-button, .like-button, .refresh-button, .clear-history-button {
-  padding: 8px 16px; /* Padding for buttons */
-  border: none; /* No border */
-  border-radius: 4px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor on hover */
-  font-size: 14px; /* Font size for buttons */
-  margin-bottom: 10px; /* Space below buttons */
+.control-button {
+  background-color: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+  width: 40px;  /* Set a fixed width */
+  height: 40px; /* Set a fixed height */
 }
 
-/* Styles for play button */
-.play-button {
-  background-color: #1DB954; /* Background color */
-  color: white; /* Text color */
+.control-button:hover {
+  color: #1DB954;
 }
 
-/* Styles for disabled play button */
-.play-button:disabled {
-  background-color: #ccc; /* Background color when disabled */
-  cursor: not-allowed; /* Not allowed cursor */
+.control-button svg {
+  width: 24px;
+  height: 24px;
 }
 
-/* Styles for like button */
-.like-button {
-  background-color: #fff; /* Background color */
-  border: 1px solid #1DB954; /* Border color */
-  color: #1DB954; /* Text color */
+.play-button svg {
+  width: 28px;
+  height: 28px;
 }
 
-/* Styles for liked state of like button */
 .like-button.liked {
-  background-color: #1DB954; /* Background color when liked */
-  color: white; /* Text color when liked */
+  color: #1DB954;
 }
 
-/* Styles for refresh button */
-.refresh-button {
-  background-color: #4CAF50; /* Background color */
-  color: white; /* Text color */
+.spotify-button {
+  color: #1DB954;  /* Spotify green color */
 }
 
-/* Hover effect for refresh button */
-.refresh-button:hover {
-  background-color: #45a049; /* Darker background on hover */
+.spotify-button:hover {
+  color: #1ed760;  /* Lighter green on hover */
 }
 
-/* Styles for clear history button */
-.clear-history-button {
-  background-color: #f44336; /* Background color */
-  color: white; /* Text color */
+.progress-bar {
+  height: 4px;
+  background-color: #535353;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 16px;
 }
 
-/* Hover effect for clear history button */
-.clear-history-button:hover {
-  background-color: #d32f2f; /* Darker background on hover */
+.progress {
+  height: 100%;
+  background-color: #1DB954;
+  transition: width 0.1s linear;
 }
 
-/* Styles for error messages and loading states */
-.error, .no-song, .no-preview {
-  color: #d32f2f; /* Text color for error messages */
-  text-align: center; /* Center text */
-  padding: 20px; /* Padding around messages */
+.error, .no-song {
+  color: #ff5555;
+  text-align: center;
+  padding: 20px;
 }
 
-/* Styles for loading spinner */
 .loading-spinner {
-  display: flex; /* Flexbox for centering */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  height: 100px; /* Fixed height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
+.song-artist {
+  font-size: 14px;
+  color: #b3b3b3;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.song-artist:hover {
+  color: #1DB954;
+  text-decoration: underline;
 }

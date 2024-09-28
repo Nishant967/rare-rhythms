@@ -2,6 +2,8 @@ import React, { useContext, useRef, useState, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
 import LoadingSpinner from './LoadingSpinner';
 import DOMPurify from 'dompurify';
+import { MdPlayArrow, MdPause, MdFavorite, MdFavoriteBorder, MdSkipNext } from 'react-icons/md';
+import { FaSpotify } from 'react-icons/fa';
 
 /**
  * SongRecommendation component to display song recommendations.
@@ -37,6 +39,18 @@ const SongRecommendation = () => {
     }
   };
 
+  const openInSpotify = () => {
+    if (song && song.spotifyUrl) {
+      window.open(song.spotifyUrl, '_blank');
+    }
+  };
+
+  const openArtistProfile = () => {
+    if (song && song.artistUrl) {
+      window.open(song.artistUrl, '_blank');
+    }
+  };
+
   // Refresh song recommendation
   const handleRefresh = () => refreshSong();
 
@@ -45,7 +59,7 @@ const SongRecommendation = () => {
 
   // Render loading spinner if loading
   if (isLoading) return <LoadingSpinner />;
-  
+
   // Render error message if there's an error
   if (error) return (
     <div className="error">
@@ -65,43 +79,39 @@ const SongRecommendation = () => {
   // Main render for the song card
   return (
     <div className="song-card">
-      <div className="song-header">
-        <h2 className="song-title">{DOMPurify.sanitize(song.title)}</h2>
-        <p className="song-artist">{DOMPurify.sanitize(song.artist)}</p>
-      </div>
-      <div className="song-content">
-        <img 
-          src={song.coverArt} 
-          alt={`${song.title} cover`} 
-          className="cover-art" 
-        />
-        <audio 
-          ref={audioRef}
-          src={song.previewUrl}
-          onTimeUpdate={handleTimeUpdate}
-          onEnded={() => dispatch({ type: 'TOGGLE_PLAY' })}
-        />
-        <div className="progress-bar">
-          <div 
-            className="progress" 
-            style={{ width: `${(currentTime / 30) * 100}%` }} // Adjust progress bar width
-          ></div>
+      <div className="song-info">
+        <img src={song.coverArt} alt={`${song.title} cover`} className="cover-art" />
+        <div className="song-details">
+          <h2 className="song-title">Title: {DOMPurify.sanitize(song.title)}</h2>
+          <p className="song-artist" onClick={openArtistProfile}>Artist: {DOMPurify.sanitize(song.artist)}</p>
         </div>
       </div>
-      <div className="song-footer">
-        <button className="play-button" onClick={handlePlay}>
-          {isPlaying ? 'Pause' : 'Play'}
+      <div className="controls">
+        <button className="control-button play-button" onClick={handlePlay}>
+          {isPlaying ? <MdPause /> : <MdPlayArrow />}
         </button>
-        <button className={`like-button ${isLiked ? 'liked' : ''}`} onClick={handleLike}>
-          {isLiked ? 'Liked' : 'Like'}
+        <button className={`control-button like-button ${isLiked ? 'liked' : ''}`} onClick={handleLike}>
+          {isLiked ? <MdFavorite /> : <MdFavoriteBorder />}
         </button>
-        <button className="refresh-button" onClick={handleRefresh}>
-          Refresh Song
+        <button className="control-button next-button" onClick={handleRefresh}>
+          <MdSkipNext />
         </button>
-        <button className="clear-history-button" onClick={handleClearHistory}>
-          Clear History
+        <button className="control-button spotify-button" onClick={openInSpotify}>
+          <FaSpotify />
         </button>
       </div>
+      <div className="progress-bar">
+        <div
+          className="progress"
+          style={{ width: `${(currentTime / 30) * 100}%` }}
+        ></div>
+      </div>
+      <audio
+        ref={audioRef}
+        src={song.previewUrl}
+        onTimeUpdate={handleTimeUpdate}
+        onEnded={() => dispatch({ type: 'TOGGLE_PLAY' })}
+      />
     </div>
   );
 };
