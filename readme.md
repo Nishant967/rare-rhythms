@@ -1,4 +1,3 @@
-```markdown
 # RareRhythms Browser Extension
 
 ## Introduction
