@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "RareRhythms",
+  "name": "Rare Rhythms",
   "version": "1.0",
   "description": "Discover a new niche song every day using Spotify",
   "permissions": [

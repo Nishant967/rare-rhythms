@@ -1,4 +1,4 @@
-# RareRhythms Browser Extension
+# Rare Rhythms Browser Extension
 
 ## Introduction
 

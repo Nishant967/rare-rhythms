@@ -9,15 +9,15 @@ import ErrorBoundary from '../src/components/ErrorBoundary'; // Importing ErrorB
  * @function renderApp
  */
 const renderApp = () => {
-  ReactDOM.render(
+  const root = ReactDOM.createRoot(document.getElementById('root')); // Create a root
+  root.render( // Use the new render method
     <React.StrictMode>
       <ErrorBoundary> {/* Wrapping the app in ErrorBoundary for error handling */}
         <AppProvider> {/* Providing context to the app */}
           <SongRecommendation /> {/* Main component of the application */}
         </AppProvider>
       </ErrorBoundary>
-    </React.StrictMode>,
-    document.getElementById('app') // Targeting the 'app' div in the HTML
+    </React.StrictMode>
   );
 };
 
