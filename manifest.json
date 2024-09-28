@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "RareRhythms",
+    "version": "1.0",
+    "description": "Discover a new niche song every day using Spotify",
+    "permissions": ["storage", "identity"],
+    "host_permissions": [
+      "https://api.spotify.com/*"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "images/icon16.png",
+        "48": "images/icon48.png",
+        "128": "images/icon128.png"
+      }
+    }
+  }
