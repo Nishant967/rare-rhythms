@@ -19,6 +19,9 @@ const SongRecommendation = () => {
   // Log current song whenever it changes
   useEffect(() => {
     console.log('Current song in component:', song);
+    if (song) {
+      console.log('Preview URL:', song.previewUrl);
+    }
   }, [song]);
 
   // Play or pause audio based on isPlaying state
@@ -52,7 +55,21 @@ const SongRecommendation = () => {
   };
 
   // Refresh song recommendation
-  const handleRefresh = () => refreshSong();
+  const handleRefresh = async () => {
+    await refreshSong();
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play()
+        .then(() => {
+          console.log("Autoplay successful");
+          dispatch({ type: 'TOGGLE_PLAY' });
+        })
+        .catch(error => {
+          console.error("Autoplay failed:", error);
+          // If autoplay fails, we'll just leave the play button in its default state
+        });
+    }
+  };
 
   // Clear song history
   const handleClearHistory = () => clearHistory();
@@ -111,6 +128,11 @@ const SongRecommendation = () => {
         src={song.previewUrl}
         onTimeUpdate={handleTimeUpdate}
         onEnded={() => dispatch({ type: 'TOGGLE_PLAY' })}
+        onLoadedData={() => {
+          if (isPlaying) {
+            audioRef.current.play().catch(error => console.error("Playback failed:", error));
+          }
+        }}
       />
     </div>
   );
