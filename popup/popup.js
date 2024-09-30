@@ -1,25 +1,27 @@
-import React from 'react'; // Importing React library
-import ReactDOM from 'react-dom'; // Importing ReactDOM for rendering
-import { AppProvider } from '../src/context/AppContext'; // Importing AppProvider for context
-import SongRecommendation from '../src/components/SongRecommendation'; // Importing SongRecommendation component
-import ErrorBoundary from '../src/components/ErrorBoundary'; // Importing ErrorBoundary component
+/**
+ * @fileOverview Main entry point for the Popup application.
+ * @module popup
+ */
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { AppProvider } from '../src/context/AppContext';
+import SongRecommendation from '../src/components/SongRecommendation';
+import ErrorBoundary from '../src/components/ErrorBoundary';
 
 /**
- * Renders the application within the 'app' div.
- * @function renderApp
+ * Renders the main application component into the DOM.
+ * 
+ * @function
+ * @returns {void}
  */
-const renderApp = () => {
-  const root = ReactDOM.createRoot(document.getElementById('root')); // Create a root
-  root.render( // Use the new render method
-    <React.StrictMode>
-      <ErrorBoundary> {/* Wrapping the app in ErrorBoundary for error handling */}
-        <AppProvider> {/* Providing context to the app */}
-          <SongRecommendation /> {/* Main component of the application */}
-        </AppProvider>
-      </ErrorBoundary>
-    </React.StrictMode>
-  );
-};
-
-// Call the render function
-renderApp();
+ReactDOM.render(
+  <React.StrictMode>
+    <ErrorBoundary>
+      <AppProvider>
+        <SongRecommendation />
+      </AppProvider>
+    </ErrorBoundary>
+  </React.StrictMode>,
+  document.getElementById('app') // The DOM element where the app will be mounted
+);

@@ -1,3 +1,6 @@
+/**
+ * Body styles
+ */
 body {
   width: 300px;
   padding: 10px;
@@ -7,6 +10,9 @@ body {
   margin: 0;
 }
 
+/**
+ * Styles for song cards
+ */
 .song-card {
   background-color: #181818;
   border-radius: 8px;
@@ -14,12 +20,18 @@ body {
   box-shadow: 0 4px 60px rgba(0,0,0,0.5);
 }
 
+/**
+ * Container for song information
+ */
 .song-info {
   display: flex;
   align-items: center;
   margin-bottom: 16px;
 }
 
+/**
+ * Cover art styles
+ */
 .cover-art {
   width: 64px;
   height: 64px;
@@ -28,11 +40,17 @@ body {
   object-fit: cover;
 }
 
+/**
+ * Styles for song details
+ */
 .song-details {
   flex-grow: 1;
   overflow: hidden;
 }
 
+/**
+ * Styles for song title
+ */
 .song-title {
   font-size: 16px;
   font-weight: 700;
@@ -42,6 +60,9 @@ body {
   text-overflow: ellipsis;
 }
 
+/**
+ * Styles for song artist
+ */
 .song-artist {
   font-size: 14px;
   color: #b3b3b3;
@@ -49,8 +70,13 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
+  transition: color 0.2s ease;
 }
 
+/**
+ * Styles for control buttons
+ */
 .controls {
   display: flex;
   justify-content: space-between;
@@ -59,6 +85,9 @@ body {
   padding: 0 20px;
 }
 
+/**
+ * Individual control button styles
+ */
 .control-button {
   background-color: transparent;
   border: none;
@@ -73,32 +102,53 @@ body {
   height: 40px; /* Set a fixed height */
 }
 
+/**
+ * Hover effect for control buttons
+ */
 .control-button:hover {
   color: #1DB954;
 }
 
+/**
+ * SVG styles for control buttons
+ */
 .control-button svg {
   width: 24px;
   height: 24px;
 }
 
+/**
+ * Play button specific SVG styles
+ */
 .play-button svg {
   width: 28px;
   height: 28px;
 }
 
+/**
+ * Styles for liked state of like button
+ */
 .like-button.liked {
   color: #1DB954;
 }
 
+/**
+ * Spotify button styles
+ */
 .spotify-button {
   color: #1DB954;  /* Spotify green color */
 }
 
+/**
+ * Hover effect for Spotify button
+ */
 .spotify-button:hover {
   color: #1ed760;  /* Lighter green on hover */
 }
 
+/**
+ * Progress bar styles
+ */
 .progress-bar {
   height: 4px;
   background-color: #535353;
@@ -107,18 +157,27 @@ body {
   margin-top: 16px;
 }
 
+/**
+ * Progress indicator styles
+ */
 .progress {
   height: 100%;
   background-color: #1DB954;
   transition: width 0.1s linear;
 }
 
+/**
+ * Error and no song message styles
+ */
 .error, .no-song {
   color: #ff5555;
   text-align: center;
   padding: 20px;
 }
 
+/**
+ * Loading spinner styles
+ */
 .loading-spinner {
   display: flex;
   justify-content: center;
@@ -126,17 +185,9 @@ body {
   height: 100px;
 }
 
-.song-artist {
-  font-size: 14px;
-  color: #b3b3b3;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
+/**
+ * Styles for song artist with hover effect
+ */
 .song-artist:hover {
   color: #1DB954;
   text-decoration: underline;
