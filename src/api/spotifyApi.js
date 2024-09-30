@@ -114,7 +114,7 @@ export async function getTrackRecommendation() {
     const accessToken = await getAccessToken();
     const selectedGenres = getRandomGenres(5).join(','); // Get random genres
     const response = await fetch('https://api.spotify.com/v1/recommendations?' + new URLSearchParams({
-      limit: 10, // Increased limit for more options
+      limit: 5, // Increased limit for more options
       market: 'US',
       seed_genres: selectedGenres,
       target_popularity: 20,
