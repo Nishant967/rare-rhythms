@@ -6,6 +6,7 @@
  */
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
@@ -39,6 +40,7 @@ module.exports = (env, argv) => {
       ],
     },
     plugins: [
+      new Dotenv(),
       new CopyPlugin({
         patterns: [
           { from: 'manifest.json', to: 'manifest.json' },

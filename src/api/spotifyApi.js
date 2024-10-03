@@ -6,9 +6,9 @@ import { setStorageItem, getStorageItem } from '../services/storageService';
  * @constant {string} REDIRECT_URI - The redirect URI for authentication
  * @constant {string} SCOPE - The scopes for Spotify API access
  */
-const CLIENT_ID = 'd19a8fab7ff44723b3b38d24bc77b48a';
-const REDIRECT_URI = 'https://fnikjahfbkliepjadeepppepfojkcpol.chromiumapp.org/';
-const SCOPE = 'user-library-modify user-read-private user-top-read';
+const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const SCOPE = process.env.SCOPE;
 
 /**
  * Expanded list of genres for diverse recommendations

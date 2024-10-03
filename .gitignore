@@ -27,3 +27,4 @@ src/.cache
 src/.DS_Store
 Thumbs.db
 .DS_Store
+.env
