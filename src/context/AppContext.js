@@ -23,7 +23,7 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case 'SET_SONG':
-      return { ...state, song: action.payload, isLoading: false };
+      return { ...state, song: action.payload, isLoading: false, isLiked: false, isPlaying: false };
     case 'TOGGLE_PLAY':
       return { ...state, isPlaying: !state.isPlaying };
     case 'TOGGLE_LIKE':
@@ -81,12 +81,17 @@ export const AppProvider = ({ children }) => {
   }, []);
 
   // Effect to handle adding song to liked list
+  // Only trigger when isLiked becomes true
+  const lastLikedSongId = React.useRef(null);
   useEffect(() => {
-    if (state.isLiked && state.accessToken && state.song) {
+    if (state.isLiked && state.accessToken && state.song && lastLikedSongId.current !== state.song.id) {
+      lastLikedSongId.current = state.song.id;
       addToLikedSongs(state.song.id, state.accessToken).catch(error => {
         console.error('Failed to add song to liked list:', error);
         dispatch({ type: 'SET_ERROR', payload: error });
       });
+    } else if (!state.isLiked) {
+      lastLikedSongId.current = null;
     }
   }, [state.isLiked, state.accessToken, state.song]);
 

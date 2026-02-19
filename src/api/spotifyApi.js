@@ -7,8 +7,34 @@ import { setStorageItem, getStorageItem } from '../services/storageService';
  * @constant {string} SCOPE - The scopes for Spotify API access
  */
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
-const REDIRECT_URI = process.env.REDIRECT_URI;
+const REDIRECT_URI = chrome.identity.getRedirectURL();
 const SCOPE = process.env.SCOPE;
+
+/**
+ * Generate a random string of a given length
+ * @param {number} length - The length of the string to generate
+ * @returns {string} - The generated random string
+ */
+function generateRandomString(length) {
+  const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const values = crypto.getRandomValues(new Uint8Array(length));
+  return values.reduce((acc, x) => acc + possible[x % possible.length], "");
+}
+
+/**
+ * Generate a code challenge from a code verifier
+ * @param {string} codeVerifier - The code verifier to hash
+ * @returns {Promise<string>} - The base64url encoded SHA-256 hash
+ */
+async function generateCodeChallenge(codeVerifier) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(codeVerifier);
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  return btoa(String.fromCharCode(...new Uint8Array(digest)))
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
+}
 
 /**
  * Expanded list of genres for diverse recommendations
@@ -54,11 +80,22 @@ function getRandomGenres(count) {
  * @returns {Promise<string>} - A promise that resolves to the access token
  */
 export async function authenticateSpotify() {
+  const codeVerifier = generateRandomString(64);
+  const codeChallenge = await generateCodeChallenge(codeVerifier);
+  const state = generateRandomString(16);
+
+  // Store codeVerifier and state for later use
+  await setStorageItem('spotify_code_verifier', codeVerifier);
+  await setStorageItem('spotify_auth_state', state);
+
   const authUrl = new URL('https://accounts.spotify.com/authorize');
   authUrl.searchParams.append('client_id', CLIENT_ID);
-  authUrl.searchParams.append('response_type', 'token');
+  authUrl.searchParams.append('response_type', 'code');
   authUrl.searchParams.append('redirect_uri', REDIRECT_URI);
   authUrl.searchParams.append('scope', SCOPE);
+  authUrl.searchParams.append('code_challenge_method', 'S256');
+  authUrl.searchParams.append('code_challenge', codeChallenge);
+  authUrl.searchParams.append('state', state);
 
   return new Promise((resolve, reject) => {
     chrome.identity.launchWebAuthFlow({
@@ -74,19 +111,26 @@ export async function authenticateSpotify() {
       } else {
         try {
           const url = new URL(redirectUrl);
-          const hash = url.hash.substring(1);
-          const params = new URLSearchParams(hash);
-          const accessToken = params.get('access_token');
-          if (accessToken) {
-            await setStorageItem('spotify_access_token', accessToken);
+          const code = url.searchParams.get('code');
+          const returnedState = url.searchParams.get('state');
+
+          const storedState = await getStorageItem('spotify_auth_state');
+          if (returnedState !== storedState) {
+            reject(new Error('Authentication failed: State mismatch'));
+            return;
+          }
+
+          if (code) {
+            const accessToken = await exchangeCodeForToken(code);
             resolve(accessToken);
           } else {
-            console.error('No access token found in redirect URL');
-            reject(new Error('Authentication failed: No access token found in redirect URL'));
+            const error = url.searchParams.get('error');
+            console.error('Authentication error from Spotify:', error);
+            reject(new Error(`Authentication failed: ${error || 'No code found'}`));
           }
         } catch (error) {
-          console.error('Error parsing redirect URL:', error);
-          reject(new Error(`Authentication failed: Error parsing redirect URL - ${error.message}`));
+          console.error('Error handling redirect:', error);
+          reject(new Error(`Authentication failed: ${error.message}`));
         }
       }
     });
@@ -94,11 +138,103 @@ export async function authenticateSpotify() {
 }
 
 /**
- * Get the stored access token from storage
+ * Exchange authorization code for access and refresh tokens
+ * @param {string} code - The authorization code from Spotify
+ * @returns {Promise<string>} - The access token
+ */
+async function exchangeCodeForToken(code) {
+  const codeVerifier = await getStorageItem('spotify_code_verifier');
+
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      client_id: CLIENT_ID,
+      grant_type: 'authorization_code',
+      code: code,
+      redirect_uri: REDIRECT_URI,
+      code_verifier: codeVerifier,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`Failed to exchange code: ${errorData.error_description || response.statusText}`);
+  }
+
+  const data = await response.json();
+  await storeTokens(data);
+  return data.access_token;
+}
+
+/**
+ * Refresh the access token using the refresh token
+ * @returns {Promise<string>} - The new access token
+ */
+export async function refreshAccessToken() {
+  const refreshToken = await getStorageItem('spotify_refresh_token');
+  if (!refreshToken) {
+    throw new Error('No refresh token available');
+  }
+
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      client_id: CLIENT_ID,
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+    }),
+  });
+
+  if (!response.ok) {
+    // If refresh token is invalid, clear it
+    await setStorageItem('spotify_refresh_token', null);
+    throw new Error('Failed to refresh token');
+  }
+
+  const data = await response.json();
+  await storeTokens(data);
+  return data.access_token;
+}
+
+/**
+ * Store tokens and expiration time in storage
+ * @param {Object} data - Token response data
+ */
+async function storeTokens(data) {
+  await setStorageItem('spotify_access_token', data.access_token);
+  if (data.refresh_token) {
+    await setStorageItem('spotify_refresh_token', data.refresh_token);
+  }
+  const expiresAt = Date.now() + data.expires_in * 1000;
+  await setStorageItem('spotify_token_expires_at', expiresAt);
+}
+
+/**
+ * Get the stored access token from storage, refreshing if necessary
  * @returns {Promise<string|null>} - A promise that resolves to the access token or null
  */
 export async function getAccessToken() {
-  return await getStorageItem('spotify_access_token');
+  const accessToken = await getStorageItem('spotify_access_token');
+  const expiresAt = await getStorageItem('spotify_token_expires_at');
+
+  if (!accessToken) return null;
+
+  if (expiresAt && Date.now() > expiresAt - 60000) { // Refresh if less than 1 minute left
+    try {
+      return await refreshAccessToken();
+    } catch (error) {
+      console.error('Error refreshing access token:', error);
+      return null;
+    }
+  }
+
+  return accessToken;
 }
 
 /**
