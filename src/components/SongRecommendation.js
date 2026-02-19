@@ -1,7 +1,6 @@
 import React, { useContext, useRef, useState, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
 import LoadingSpinner from './LoadingSpinner';
-import DOMPurify from 'dompurify';
 import { MdPlayArrow, MdPause, MdFavorite, MdFavoriteBorder, MdSkipNext } from 'react-icons/md';
 import { FaSpotify } from 'react-icons/fa';
 
@@ -99,8 +98,8 @@ const SongRecommendation = () => {
       <div className="song-info">
         <img src={song.coverArt} alt={`${song.title} cover`} className="cover-art" />
         <div className="song-details">
-          <h2 className="song-title">Title: {DOMPurify.sanitize(song.title)}</h2>
-          <p className="song-artist" onClick={openArtistProfile}>Artist: {DOMPurify.sanitize(song.artist)}</p>
+          <h2 className="song-title">Title: {song.title}</h2>
+          <p className="song-artist" onClick={openArtistProfile}>Artist: {song.artist}</p>
         </div>
       </div>
       <div className="controls">

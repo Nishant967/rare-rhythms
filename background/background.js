@@ -1,7 +1,7 @@
 // Import necessary services and utilities
 import { getNewRecommendation } from '../src/services/recommendationService';
 import { setStorageItem, getStorageItem } from '../src/services/storageService';
-import { authenticateSpotify } from '../src/api/spotifyApi';
+import { authenticateSpotify, getAccessToken } from '../src/api/spotifyApi';
 import { isSameDay } from '../src/utils/dateUtils';
 
 /**
@@ -34,13 +34,22 @@ async function updateDailyRecommendation() {
   // Check if the last update was not today
   if (!lastUpdate || !isSameDay(new Date(lastUpdate), currentDate)) {
     try {
-      // Authenticate and get a new recommendation
-      const accessToken = await authenticateSpotify();
+      // Try to get a valid access token (refreshes automatically if needed)
+      let accessToken = await getAccessToken();
+
+      // If no token is available, the user needs to authenticate via the popup
+      if (!accessToken) {
+        console.log('No access token available for background update. Authentication required.');
+        return;
+      }
+
+      // Get a new recommendation
       const newRecommendation = await getNewRecommendation(accessToken);
       
       // Store the new recommendation and update the last update date
       await setStorageItem('currentRecommendation', newRecommendation);
       await setStorageItem('lastUpdate', currentDate.toISOString());
+      console.log('Daily recommendation updated successfully in background.');
     } catch (error) {
       // Log any errors that occur during the update process
       console.error('Error updating daily recommendation:', error);
